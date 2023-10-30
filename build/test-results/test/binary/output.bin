@@ -1,0 +1,1 @@
+À01:12:59.949 [Test worker] WARN com.amazonaws.auth.profile.internal.BasicProfileConfigLoader -- Your profile name includes a 'profile ' prefix. This is considered part of the profile name in the Java SDK, so you will need to include this prefix in your profile name when you reference this profile from your Java code.

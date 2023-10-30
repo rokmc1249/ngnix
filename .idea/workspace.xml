@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0dcacaf8-972c-4a6a-8eca-e203d7884587" name="변경" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="team2project" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="AnnotationType" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="post" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="post_test" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/sparta/team2project/schedules/repository/SchedulesRepository.java" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2WLPKxsDRnWn2x5IVcbcuignE5q" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "extract.method.default.visibility": "private",
+    "last_opened_file_path": "C:/Work/spring-sparta/week2/sub/practice",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "모듈",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "spring.configuration.checksum": "8e93663a567619412b237ef61603ac4a",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.sparta.team2project.tags.repository" />
+      <recent name="com.sparta.team2project.posts.dto" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.Team2projectApplication">
+    <configuration name="PostsServiceTest.getUserLikePostsId (1)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.sparta.team2project.posts.PostsServiceTest.getUserLikePostsId&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="PostsServiceTest.testGetRankPosts" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.sparta.team2project.posts.PostsServiceTest.testGetRankPosts&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="PostsServiceTest.testGetUserLikePostsId" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.sparta.team2project.posts.PostsServiceTest.testGetUserLikePostsId&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="PostsServiceTest.testValidKeywordPosts" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.sparta.team2project.posts.PostsServiceTest.testValidKeywordPosts&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="Test.test" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.sparta.team2project.Test.test&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="team2project.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="team2project.main" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Team2projectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="team2project.main" />
+      <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.sparta.team2project.Team2projectApplication" />
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.PostsServiceTest.testGetRankPosts" />
+        <item itemvalue="Gradle.Test.test" />
+        <item itemvalue="Gradle.PostsServiceTest.testValidKeywordPosts" />
+        <item itemvalue="Gradle.PostsServiceTest.testGetUserLikePostsId" />
+        <item itemvalue="Gradle.PostsServiceTest.getUserLikePostsId (1)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="0dcacaf8-972c-4a6a-8eca-e203d7884587" name="변경" comment="" />
+      <created>1696508837976</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1696508837976</updated>
+      <workItem from="1696508873747" duration="1479000" />
+      <workItem from="1696510687932" duration="3188000" />
+      <workItem from="1696554107643" duration="20032000" />
+      <workItem from="1696597394242" duration="7384000" />
+      <workItem from="1696643700269" duration="16508000" />
+      <workItem from="1696678078179" duration="3186000" />
+      <workItem from="1696682698719" duration="1813000" />
+      <workItem from="1696690836876" duration="5108000" />
+      <workItem from="1696740817437" duration="15689000" />
+      <workItem from="1696777096650" duration="6594000" />
+      <workItem from="1696816765008" duration="22491000" />
+      <workItem from="1696902571253" duration="13657000" />
+      <workItem from="1696941558293" duration="2308000" />
+      <workItem from="1696989495314" duration="26756000" />
+      <workItem from="1697030815028" duration="664000" />
+      <workItem from="1697032900544" duration="1470000" />
+      <workItem from="1697091689759" duration="14242000" />
+      <workItem from="1697173903181" duration="14377000" />
+      <workItem from="1697244456144" duration="36988000" />
+      <workItem from="1697303228329" duration="3861000" />
+      <workItem from="1697348050555" duration="2885000" />
+      <workItem from="1697353923104" duration="767000" />
+      <workItem from="1697417471082" duration="22005000" />
+      <workItem from="1697547996730" duration="4164000" />
+      <workItem from="1697605913952" duration="24904000" />
+      <workItem from="1697677416059" duration="4362000" />
+      <workItem from="1697694244688" duration="3660000" />
+      <workItem from="1697698494062" duration="14475000" />
+      <workItem from="1697770259335" duration="1579000" />
+      <workItem from="1697778060860" duration="20395000" />
+      <workItem from="1697849573183" duration="447000" />
+      <workItem from="1697850229685" duration="22291000" />
+      <workItem from="1697935388633" duration="6509000" />
+      <workItem from="1697945484051" duration="170000" />
+      <workItem from="1698021903818" duration="24189000" />
+      <workItem from="1698112002520" duration="23838000" />
+      <workItem from="1698160517318" duration="2842000" />
+      <workItem from="1698195982106" duration="23033000" />
+      <workItem from="1698282533379" duration="25522000" />
+      <workItem from="1698372027990" duration="15659000" />
+      <workItem from="1698425721199" duration="2772000" />
+      <workItem from="1698469296557" duration="13759000" />
+      <workItem from="1698571716253" duration="9968000" />
+      <workItem from="1698661773317" duration="247000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.security:spring-security-core" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.validation:jakarta.validation-api" />
+    <option featureType="dependencySupport" implementationName="java:com.google.protobuf:protobuf-java" />
+    <option featureType="dependencySupport" implementationName="java:io.projectreactor:reactor-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="dependencySupport" implementationName="java:org.hibernate.validator:hibernate-validator" />
+    <option featureType="dependencySupport" implementationName="java:com.amazonaws:aws-java-sdk-s3" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:com.amazonaws:aws-java-sdk-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/com/sparta/team2project/Test.java</url>
+          <line>12</line>
+          <properties class="com.sparta.team2project.Test" method="test">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/team2project$Team2projectApplication.ic" NAME="Team2projectApplication 커버리지 결과" MODIFIED="1696510959862" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>

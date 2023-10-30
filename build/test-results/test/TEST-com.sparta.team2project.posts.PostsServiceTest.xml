@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sparta.team2project.posts.PostsServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-10-28T16:12:55" hostname="DESKTOP-2LQTN1C" time="5.491">
+  <properties/>
+  <testcase name="좋아요 순으로 게시글 조회 Test" classname="com.sparta.team2project.posts.PostsServiceTest" time="5.491"/>
+  <system-out><![CDATA[01:12:59.949 [Test worker] WARN com.amazonaws.auth.profile.internal.BasicProfileConfigLoader -- Your profile name includes a 'profile ' prefix. This is considered part of the profile name in the Java SDK, so you will need to include this prefix in your profile name when you reference this profile from your Java code.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
