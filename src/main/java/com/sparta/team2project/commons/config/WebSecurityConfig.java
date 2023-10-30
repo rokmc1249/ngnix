@@ -33,7 +33,7 @@ public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
- //   private final AuthenticationConfiguration authenticationConfiguration;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
