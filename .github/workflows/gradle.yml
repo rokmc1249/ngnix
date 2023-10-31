@@ -4,8 +4,8 @@ on:
   push:
     branches: [ "master" ]
   pull_request:
-    branches:
-      - master
+    branches: [ "master" ]
+
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   S3_BUCKET_NAME: ${{ secrets.AWS_SECRET_BUCKET }}
@@ -17,10 +17,10 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
-    name: Deploy
+  build:
+    
     runs-on: ubuntu-latest
-    environment: production
+    
 
     steps:
     - uses: actions/checkout@v3
@@ -32,18 +32,23 @@ jobs:
        
   
     - uses: actions/checkout@v3
-    - run: touch ./src/main/application.properties
-    - run: echo "${{secrets.APPLICATION}}" > ./src/main/application.properties
-    - run: cat ./src/main/application.properties
+    - run: touch ./src/main/resources/application.properties
+    - run: echo "${{secrets.APPLICATION}}" > ./src/main/resources/application.properties
+    - run: cat ./src/main/resources/application.properties
 
-        # gradlew 실행 권한 부여
-    - name: Run chmod to make gradlew executable
+          # gradlew에 권한 부여
+    - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
+      # gradlew 빌드
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: clean build -x test
+      run: ./gradlew clean build
+      
+      # 빌드를 성공하면 해당 프로젝트를 zip로 만듬
+    # 이름은 run 에서 설정 가능
+    - name: Make zip file
+      run: zip -r ./GITHUB_SHA.zip .
+      shell: bash
 
      # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
     - name: Configure AWS credentials
@@ -55,17 +60,17 @@ jobs:
 
     # (5) 빌드 결과물을 S3 버킷에 업로드
     - name: Upload to AWS S3
-      run: |
-        aws deploy push \
-          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
-          --ignore-hidden-files \
-          --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
-          --source .
+      run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./GITHUB_SHA.zip s3://${{ secrets.S3_BUCKET_NAME }}/GITHUB_SHA.zip
+        
   # (6) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
-    - name: Deploy to AWS EC2 from S3
+    - name: Deploy
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         aws deploy create-deployment \
-          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
-          --deployment-config-name CodeDeployDefault.AllAtOnce \
-          --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-          --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
+          --application-name cicd-test-CD \
+          --deployment-group-name cicd-test-CD-group \
+          --file-exists-behavior OVERWRITE \
+          --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=GITHUB_SHA.zip \
+        --region ${{ secrets.AWS_REGION }}
