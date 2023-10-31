@@ -182,7 +182,7 @@ public class PostsService {
     public List<PostResponseDto> getRankPosts() {
 
         // 상위 3개 게시물 가져오기 (좋아요 수 겹칠 시 createdAt 내림차순으로 정렬)
-        List<Posts> postsList = postsRepository.findTop3ByTitleIsNotNullAndContentsIsNotNullOrderByLikeNumDescCreatedAtDesc();
+        List<Posts> postsList = postsRepository.findTop10ByTitleIsNotNullAndContentsIsNotNullOrderByLikeNumDescCreatedAtDesc();
         return getPostResponseDto(postsList);
     }
 
