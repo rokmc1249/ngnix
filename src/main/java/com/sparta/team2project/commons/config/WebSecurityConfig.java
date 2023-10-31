@@ -96,6 +96,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/").permitAll() // 메인 페이지 요청 허가
                                 .requestMatchers("/api/users/**").permitAll()
                                 // 조회기능은 누구나 가능합니다!
+                                .requestMatchers(HttpMethod.GET, "/health").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/search/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/posts/rank").permitAll()
