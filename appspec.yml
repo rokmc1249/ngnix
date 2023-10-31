@@ -2,9 +2,10 @@ version: 0.0
 os: linux
 
 files:
-  - source:  /
+  - source: /home/ubuntu/app/develop/build/libs
     destination: /home/ubuntu/app/develop/build/libs
     overwrite: yes
+file_exists_behavior: OVERWRITE
 
 permissions:
   - object: /
