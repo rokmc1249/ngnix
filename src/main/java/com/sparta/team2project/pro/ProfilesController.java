@@ -1,4 +1,4 @@
-package com.sparta.team2project.logging;
+package com.sparta.team2project.pro;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -10,10 +10,10 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-public class ProfileController {
+public class ProfilesController {
     private final Environment env;
 
-    @GetMapping("/profile")
+    @GetMapping("/profiles")
     public String profile() {
         List<String> profiles = Arrays.asList(env.getActiveProfiles());
         List<String> realProfiles = Arrays.asList("real1", "real2");
