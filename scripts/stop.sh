@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PROJECT_ROOT="/home/ubuntu/app"
-JAR_FILE="$PROJECT_ROOT/develop/build/libs/team2project-0.0.1-SNAPSHOT.jar"
+JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
