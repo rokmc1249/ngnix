@@ -13,16 +13,10 @@ import java.util.List;
 public class ProfilesController {
     private final Environment env;
 
-    @GetMapping("/profiles")
-    public String profile() {
-        List<String> profiles = Arrays.asList(env.getActiveProfiles());
-        List<String> realProfiles = Arrays.asList("real1", "real2");
-        String defaultProfile = profiles.isEmpty()? "default" : profiles.get(0);
-
-        // real, real1, real2 중 하나라도 있으면 그 값 반환
-        return profiles.stream()
-                .filter(realProfiles::contains)
-                .findAny()
-                .orElse(defaultProfile);
+    @GetMapping("/profile")
+    public String getProfile() {
+        return Arrays.stream(env.getActiveProfiles()).findFirst().orElse("");
     }
 }
+
+

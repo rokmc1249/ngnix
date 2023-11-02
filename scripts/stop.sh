@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
 
+# stop.sh
+# 서버 중단을 위한 스크립트
+
 ABSPATH=$(readlink -f $0)
+# ABSDIR : 현재 stop.sh 파일 위치의 경로
 ABSDIR=$(dirname $ABSPATH)
+# import profile.sh
 source ${ABSDIR}/profile.sh
 
-PROJECT_ROOT="/home/ubuntu/app"
-JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
-DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
+IDLE_PORT=$(find_idle_port)
 
-TIME_NOW=$(date +%c)
+echo "> $IDLE_PORT 에서 구동중인 애플리케이션 pid 확인"
+IDLE_PID=$(lsof -ti tcp:${IDLE_PORT})
 
-echo "> 현재 구동 중인 애플리케이션 PID 확인"
-CURRENT_PID=$(pgrep -f $JAR_FILE)
-
-if [ -z "$CURRENT_PID" ]; then
-  echo "$TIME_NOW > 현재 실행 중인 애플리케이션이 없습니다" >> $DEPLOY_LOG
+if [ -z ${IDLE_PID} ]
+then
+  echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
 else
-  echo "$TIME_NOW > 실행 중인 $CURRENT_PID 애플리케이션 종료" >> $DEPLOY_LOG
-  kill -15 $CURRENT_PID
+  echo "> kill -15 $IDLE_PID"
+  kill -15 ${IDLE_PID}
   sleep 5
-  echo "$TIME_NOW > 애플리케이션이 종료되었습니다." >> $DEPLOY_LOG
 fi
