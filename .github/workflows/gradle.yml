@@ -3,8 +3,7 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -18,53 +17,41 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
 
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+
+      - name: create secret files
+        working-directory: src/main/resources
+        run: |
+            touch application.properties
+            echo "${{ secrets.APPLICATION }}"  > ./src/main/resources/application.properties
+            cat ./src/main/resources/application.properties
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
 
-
-      - uses: actions/checkout@v3
-      - run: touch ./src/main/resources/application.properties
-      - run: echo "${{secrets.APPLICATION}}" > ./src/main/resources/application.properties
-      - run: cat ./src/main/resources/application.properties
-
-        # gradlew에 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
-        # gradlew 빌드
-      - name: Build with Gradle
-        run: ./gradlew clean build
-
-      # 전송할 파일을 담을 디렉토리 생성
-      - name: Make Directory for deliver
-        run: mkdir deploy
-      # Jar 파일 Copy
-      - name: Copy Jar
-        run: cp ./build/libs/*.jar ./deploy/
-
-      # appspec.yml Copy
-      - name: Copy appspec
-        run: cp ./appspec.yml ./deploy/
-
-      # script file Copy
-      - name: Copy shell
-        run: cp ./scripts/* ./deploy/
-
-
-        # 빌드를 성공하면 해당 프로젝트를 zip로 만듬
-      # 이름은 run 에서 설정 가능
-      - name: Make zip file
-        run: zip -r ./GITHUB_SHA.zip .
         shell: bash
+
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+        shell: bash
+
+      - name: Make zip file
+        run: zip -r ./code-deploy.zip ./build/libs/*.jar ./scripts/* -j ./appspec.yml
+        shell: bash
+
+
 
       # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
       - name: Configure AWS credentials
@@ -83,10 +70,10 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          aws deploy create-deployment \
-            --application-name cicd-test-CD \
-            --deployment-group-name cicd-test-CD-group \
-            --file-exists-behavior OVERWRITE \
-            --s3-location bucket=codesucket,bundleType=zip,key=GITHUB_SHA.zip \
-            --region ${{ secrets.AWS_REGION }}
+
+        run: aws deploy create-deployment
+          --application-name cicd-test-CD
+          --deployment-config-name CodeDeployDefault.OneAtATime
+          --deployment-group-name cicd-test-CD-group
+          --file-exists-behavior OVERWRITE
+          --s3-location bucket=codesucket,bundleType=zip,key=GITHUB_SHA.zip

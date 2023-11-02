@@ -1,42 +1,57 @@
 #!/usr/bin/env bash
 
-# profile.sh
-# 미사용 중인 profile을 잡는다.
+BASE_PATH=/home/ubuntu/
+BUILD_PATH=$(ls $BASE_PATH/myapp/*.jar)
+JAR_NAME=$(basename $BUILD_PATH)
+echo "> build 파일명: $JAR_NAME"
 
-function find_idle_profile()
-{
-    # curl 결과로 연결할 서비스 결정
-    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
+echo "> build 파일 복사"
+DEPLOY_PATH=/home/ubuntu/temp/
+cp $BUILD_PATH $DEPLOY_PATH
 
-    if [ ${RESPONSE_CODE} -ge 400 ] # 400 보다 크면 (즉, 40x/50x 에러 모두 포함)
-    then
-        CURRENT_PROFILE=set2
-    else
-        CURRENT_PROFILE=$(curl -s http://localhost/profile)
-    fi
+echo "> 현재 구동중인 Set 확인"
+CURRENT_PROFILE=$(curl -s http://localhost/profile)
+echo "> $CURRENT_PROFILE"
 
-    # IDLE_PROFILE : nginx와 연결되지 않은 profile
-    if [ ${CURRENT_PROFILE} == set1 ]
-    then
-      IDLE_PROFILE=set2
-    else
-      IDLE_PROFILE=set1
-    fi
+# 쉬고 있는 dev 찾기: dev이 사용중이면 dev2가 쉬고 있고, 반대면 dev이 쉬고 있음
+if [ $CURRENT_PROFILE == dev ]
+then
+  IDLE_PROFILE=dev2
+  IDLE_PORT=8090
+elif [ $CURRENT_PROFILE == dev ]
+then
+  IDLE_PROFILE=dev
+  IDLE_PORT=8089
+else
+  echo "> 일치하는 Profile이 없습니다. Profile: $CURRENT_PROFILE"
+  echo "> dev 할당합니다. IDLE_PROFILE: dev"
+  IDLE_PROFILE=dev
+  IDLE_PORT=8089
+fi
 
-    # bash script는 값의 반환이 안된다.
-    # echo로 결과 출력 후, 그 값을 잡아서 사용한다.
-    echo "${IDLE_PROFILE}"
-}
+echo "> application.jar 교체"
+IDLE_APPLICATION=$IDLE_PROFILE-demo.jar
+IDLE_APPLICATION_PATH=$DEPLOY_PATH$IDLE_APPLICATION
 
-# 쉬고 있는 profile의 port 찾기
-function find_idle_port()
-{
-    IDLE_PROFILE=$(find_idle_profile)
+# 미연결된 Jar로 신규 Jar 심볼릭 링크 (ln)
+ln -Tfs $DEPLOY_PATH$JAR_NAME $IDLE_APPLICATION_PATH
 
-    if [ ${IDLE_PROFILE} == set1 ]
-    then
-      echo "8081"
-    else
-      echo "8082"
-    fi
-}
+echo "> $IDLE_PROFILE 에서 구동중인 애플리케이션 pid 확인"
+IDLE_PID=$(pgrep -f $IDLE_APPLICATION)
+
+if [ -z $IDLE_PID ]
+then
+  echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
+else
+  echo "> kill -15 $IDLE_PID"
+  kill -15 $IDLE_PID
+  sleep 5
+fi
+
+echo "> $IDLE_PROFILE 배포"
+nohup java -jar -Dspring.profiles.active=$IDLE_PROFILE $IDLE_APPLICATION_PATH > $DEPLOY_PATH/nohup.out 2>&1 &
+
+# Nginx Port 스위칭을 위한 스크립트
+echo "> 스위칭"
+sleep 10
+/home/ubuntu/myapp/switch.sh
