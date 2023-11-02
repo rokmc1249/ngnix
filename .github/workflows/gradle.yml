@@ -26,11 +26,11 @@ jobs:
         uses: actions/checkout@v3
 
 
-      - name: create secret files
+      
       - uses: actions/checkout@v3
-                - run: touch ./src/main/resources/application.properties
-                - run: echo "${{secrets.APPLICATION}}" > ./src/main/resources/application.properties
-                - run: cat ./src/main/resources/application.properties
+      - run: touch ./src/main/resources/application.properties
+      - run: echo "${{secrets.APPLICATION}}" > ./src/main/resources/application.properties
+      - run: cat ./src/main/resources/application.properties
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
