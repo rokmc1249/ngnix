@@ -1,34 +1,22 @@
-##!/usr/bin/env bash
-#
-#PROJECT_ROOT="/home/ubuntu/app"
-#
-#DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
-#
-#CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
-#TARGET_PORT=0
-#
-#if [ $CURRENT_PORT -eq 8081 ]; then
-#  TARGET_PORT=8082
-#  DEPLOY_LOG="$PROJECT_ROOT/deploy2.log"
-#elif [ $CURRENT_PORT -eq 8082 ]; then
-#  TARGET_PORT=8081
-#else
-#  echo "> No WAS is connected to nginx"
-#  exit 1
-#fi
-#
-## 프록시 포트번호 변경
-#echo "set \$service_url http://3.39.70.122:${TARGET_PORT};" | sudo tee /home/ubuntu/service_url.inc
-#echo "> Now Nginx proxies to ${TARGET_PORT}." >> $DEPLOY_LOG
-#
-## PREV_PID : 이전 PORT 번호로 구동 중인 애플리케이션 pid
-#PREV_PID=$(lsof -Fp -i TCP:${CURRENT_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-9]+')
-#
-## PREV_PID 구동중이면 kill
-#if [ ! -z $PREV_PID ]; then
-#  echo "$TIME_NOW > 실행중인 $PREV_PID 애플리케이션 종료 " >> $DEPLOY_LOG
-#  kill -15 $PREV_PID
-#fi
-#
-## nginx reload
-#sudo service nginx reload
+#!/usr/bin/env bash
+
+ # switch.sh
+ # nginx 연결 설정 스위치
+
+ ABSPATH=$(readlink -f $0)
+ ABSDIR=$(dirname $ABSPATH)
+ source ${ABSDIR}/profile.sh
+
+ function switch_proxy() {
+     IDLE_PORT=$(find_idle_port)
+
+     echo "> 전환할 Port: $IDLE_PORT"
+     echo "> Port 전환"
+     # nginx와 연결한 주소 생성
+     # | sudo tee ~ : 앞에서 넘긴 문장을 service-url.inc에 덮어씀
+     echo "set \$service_url http://127.0.0.1:${IDLE_PORT};" | sudo tee /etc/nginx/conf.d/service-url.inc
+
+     echo "> 엔진엑스 Reload"
+     # nignx reload. restart와는 다르게 설정 값만 불러옴
+     sudo service nginx reload
+ }

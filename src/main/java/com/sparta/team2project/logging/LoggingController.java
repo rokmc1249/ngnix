@@ -17,6 +17,6 @@ public class LoggingController {
 
     @GetMapping("/health")
     public String checkHealth() {
-        return "변경";
+        return "추추";
     }
 }
