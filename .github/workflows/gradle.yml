@@ -47,7 +47,7 @@ jobs:
         shell: bash
 
       - name: Make zip file
-        run: zip -r ./code-deploy.zip ./build/libs/*.jar ./scripts/* -j ./appspec.yml
+        run: zip -r ./GITHUB_SHA.zip ./build/libs/*.jar ./scripts/* -j ./appspec.yml
         shell: bash
 
 
