@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 CURRENT_PORT=$(cat /etc/nginx/conf.d/service-url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=0
 
