@@ -2,8 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/application
+    destination: /home/ubuntu/app/step3/zip/
     overwrite: yes
+
 
 permissions:
   - object: /home/ubuntu
@@ -11,14 +12,17 @@ permissions:
     owner: ubuntu
     group: ubuntu
 
+
 hooks:
+  AfterInstall:
+    - location: stop.sh # 엔진엑스와 연결되어 있지 않은 스프링 부트를 종료
+      timeout: 60 # 스크립트 실행 60초 이상 수행되면 실패 (무한 대기할 수는 없으니 설정)
+      runas: ubuntu
   ApplicationStart:
-    - location: scripts/run_new_was.sh
-      timeout: 180
-      runas: ubuntu
-    - location: scripts/health_check.sh
-      timeout: 180
-      runas: ubuntu
-    - location: scripts/switch.sh
-      timeout: 180
-      runas: ubuntu
+      - location: start.sh # 엔진엑스와 연결되어 있지 않은 Port로 새 버전의 스프링 부트를 시작
+        timeout: 60
+        runas: ubuntu
+  ValidateService:
+      - location: health.sh # 새 스프링 부트가 정상적으로 실행됐는지 확인
+        timeout: 60
+        runas: ubuntu
