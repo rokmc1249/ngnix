@@ -179,7 +179,7 @@ public class UserService {
 //        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, refreshToken); // 생성된 토큰 헤더에 넣기
 
 
-        return ResponseEntity.ok(new MessageResponseDto("로그인 성공", HttpServletResponse.SC_OK));
+        return ResponseEntity.ok(new MessageResponseDto("로그인 성공!!", HttpServletResponse.SC_OK));
     }
 
     // 랜덤 닉네임 생성 메서드
