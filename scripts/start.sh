@@ -8,6 +8,9 @@ source ${ABSDIR}/profile.sh
 
 REPOSITORY=/home/ubuntu/app/step3
 
+APP_LOG="$REPOSITORY/application.log"
+ERROR_LOG="$REPOSITORY/error.log"
+DEPLOY_LOG="$REPOSITORY/deploy.log"
 
 echo "> Build 파일 복사"
 echo "> cp $REPOSITORY/zip/*.jar $REPOSITORY/"
