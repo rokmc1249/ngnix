@@ -28,7 +28,7 @@ jobs:
       - run: touch ./src/main/resources/application.properties
       - run: echo "${{secrets.APPLICATION}}" > ./src/main/resources/application.properties
       - run: cat ./src/main/resources/application.properties
-        
+
       # ./gradlw 실행 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
