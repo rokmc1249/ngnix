@@ -6,13 +6,13 @@
 function find_idle_profile()
 {
     # 현재 엔진엑스가 바라보는 스프링 부트의 정상 수행 여부 확인 -> HttpStatus
-    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
+    RESPONSE_CODE=$(sudo curl -s -o /dev/null -w "%{http_code}" http://43.202.202.19/profile)
 
     if [ ${RESPONSE_CODE} -ge 400 ] # 400 보다 크면 (즉, 40x/50x 에러 모두 포함)
     then
         CURRENT_PROFILE=real2 # 정상적으로 수행 중이지 않을 경우
     else
-        CURRENT_PROFILE=$(curl -s http://localhost/profile)
+        CURRENT_PROFILE=$(sudo curl -s http://43.202.202.19/profile)
     fi
 
     if [ ${CURRENT_PROFILE} == real1 ]

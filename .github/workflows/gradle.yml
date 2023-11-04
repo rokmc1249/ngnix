@@ -15,7 +15,7 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-20.04 # 스크립트를 작동할 OS
+    runs-on: ubuntu-latest # 스크립트를 작동할 OS
     permissions:
       contents: read
       packages: write
