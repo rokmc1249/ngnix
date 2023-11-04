@@ -1,17 +1,14 @@
 name: Java CI with Gradle
-
 on:
   release:
     types: [push] # push를 하면 자동으로 실행
   push:
     branches: [master]
-
 env:
   S3_BUCKET_NAME: codesucket
   PROJECT_NAME: Galle
   CODE_DEPLOY_APP_NAME: cicd-test-CD
   CODE_DEPLOY_GROUP_NAME: cicd-test-CD-group
-
 jobs:
   build:
 
@@ -19,7 +16,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -27,17 +23,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
       # ./gradlw 실행 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         shell: bash
-
       # 프로젝트 build
       - name: Build with Gradle
         run: ./gradlew clean build -x test
         shell: bash
-
       # 실제 필요한 파일만 압축
       - name: Generate deployment package
         run: |
@@ -49,12 +42,10 @@ jobs:
           cd ../ && mkdir -p deploy
           mv before-deploy/before-deploy.zip deploy/$PROJECT_NAME.zip
         shell: bash
-
       # 프로젝트 압축
       - name: Make zip file
         run: zip -r ./$PROJECT_NAME.zip .
         shell: bash
-
       # AWS 권한 확인
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -62,11 +53,9 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
-
       # 압축한 프로젝트를 S3로 전송
       - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./deploy/$PROJECT_NAME.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME.zip
-
       # 배포 그룹으로 애플리케이션 전송
       - name: Code Deploy
         run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name $CODE_DEPLOY_GROUP_NAME --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME.zip
