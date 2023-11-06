@@ -94,6 +94,7 @@ public class WebSecurityConfig {
                         authorizeHttpRequests
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
                                 .requestMatchers("/").permitAll() // 메인 페이지 요청 허가
+                                .requestMatchers("/hello").permitAll()
                                 .requestMatchers("/api/users/**").permitAll()
                                 .requestMatchers("/actuator/**").permitAll()
                                 .requestMatchers("/version").permitAll()

@@ -1,19 +1,16 @@
 #!/usr/bin/env bash
 
-# $IDLE_PROFILE을 통해 properties 값을 가져오고 active profile을 지정한다
-
 ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
 source ${ABSDIR}/profile.sh
 
+IDLE_PORT=$(find_idle_port)
 REPOSITORY=/home/ubuntu/app/step3
 
-
-
 echo "> Build 파일 복사"
-echo "> cp $REPOSITORY/zip/*.jar $REPOSITORY/"
+echo "> cp $REPOSITORY/*.jar $REPOSITORY/"
 
-cp $REPOSITORY/zip/*.jar $REPOSITORY/
+cp $REPOSITORY/zip/*.jar $REPOSITORY      # 새로운 jar file 계속 덮어쓰기
 
 echo "> 새 어플리케이션 배포"
 JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
@@ -29,6 +26,8 @@ echo "> $JAR_NAME 실행"
 IDLE_PROFILE=$(find_idle_profile)
 
 echo "> $JAR_NAME 를 profile=$IDLE_PROFILE 로 실행합니다."
-nohup java -jar \
-    -Dspring.profiles.active=$IDLE_PROFILE \
-    $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
+
+cd $REPOSITORY
+
+docker build -t spring ./
+docker run -it --name "$IDLE_PROFILE" -d -e active=$IDLE_PROFILE -p $IDLE_PORT:$IDLE_PORT spring

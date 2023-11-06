@@ -27,6 +27,11 @@ public class HealthController {
                 .findAny()
                 .orElse(defaultProfile);
     }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "무중단 배포 !!";
+    }
 }
 
 

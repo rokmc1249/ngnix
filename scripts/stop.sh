@@ -1,19 +1,23 @@
 #!/usr/bin/env bash
 
 ABSPATH=$(readlink -f $0)
-ABSDIR=$(dirname $ABSPATH) # 현재 stop.sh가 속한 경로
-source ${ABSDIR}/profile.sh # import 구문, profile.sh의 여러 function 사용 가능
+ABSDIR=$(dirname $ABSPATH)
+source ${ABSDIR}/profile.sh
 
-IDLE_PORT=$(find_idle_port)
+IDLE_PROFILE=$(find_idle_profile)
 
-echo "> $IDLE_PORT 에서 구동중인 애플리케이션 pid 확인"
-IDLE_PID=$(sudo lsof -ti tcp:${IDLE_PORT})
+CONTAINER_ID=$(docker container ls -f "name=${IDLE_PROFILE}" -q)
 
-if [ -z ${IDLE_PID} ]
+echo "> 컨테이너 ID는 무엇?? ${CONTAINER_ID}"
+echo "> 현재 프로필은 무엇?? ${IDLE_PROFILE}"
+
+if [ -z ${CONTAINER_ID} ]
 then
   echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
 else
-  echo "> kill -15 $IDLE_PID"
-  kill -15 ${IDLE_PID}
+  echo "> docker stop ${IDLE_PROFILE}"
+  sudo docker stop ${IDLE_PROFILE}
+  echo "> docker rm ${IDLE_PROFILE}"
+  sudo docker rm ${IDLE_PROFILE}    # 컨테이너 이름을 지정해서 사용하기 때문에.. 꼭 컨테이너 삭제도 같이 해주셔야 합니다. (나중에 다시 띄울거기 때문에..)
   sleep 5
 fi

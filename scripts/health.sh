@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# 엔진엑스와 연결되지 않은 포트로 스프링 부트가 잘 수행되었는지 체크
-# 이후 엔진엑스 프록시 설정을 변경 -> switch.sh
-
 ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
 source ${ABSDIR}/profile.sh
@@ -12,12 +9,12 @@ IDLE_PORT=$(find_idle_port)
 
 echo "> Health Check Start!"
 echo "> IDLE_PORT: $IDLE_PORT"
-echo "> curl -s http://3.37.107.30:$IDLE_PORT/profile "
+echo "> curl -s http://13.124.62.52:$IDLE_PORT/profile"
 sleep 10
 
 for RETRY_COUNT in {1..10}
 do
-  RESPONSE=$(curl -s http://3.37.107.30:${IDLE_PORT}/profile)
+  RESPONSE=$(curl -s http://13.124.62.52:${IDLE_PORT}/profile)
   UP_COUNT=$(echo ${RESPONSE} | grep 'real' | wc -l)
 
   if [ ${UP_COUNT} -ge 1 ]
