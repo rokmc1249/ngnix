@@ -64,7 +64,10 @@ jobs:
           aws-region: ap-northeast-2
       # 압축한 프로젝트를 S3로 전송
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./deploy/$PROJECT_NAME.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME.zip
+        run: |
+          aws s3 cp \
+          --region ap-northeast-2 \
+          ./$PROJECT_NAME.zip s3://$S3_BUCKET_NAME
       # 배포 그룹으로 애플리케이션 전송
       - name: Code Deploy
         run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME 
