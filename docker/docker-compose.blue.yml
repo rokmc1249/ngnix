@@ -1,0 +1,10 @@
+# docker-compose-blue.yml
+version: '3'
+services:
+  backend:
+    build: .
+    ports:
+      - "8089:8080"
+    container_name: spring-blue
+    volumes:
+      - /home/ubuntu/app/logs/blue:/logs
