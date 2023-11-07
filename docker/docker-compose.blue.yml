@@ -1,10 +1,14 @@
 # docker-compose-blue.yml
 version: '3'
 services:
-  backend:
-    build: .
+  api:
+    image: ${DOCKER_REGISTRY}/${DOCKER_APP_NAME}:${IMAGE_TAG}
+
+    container_name: ${DOCKER_APP_NAME}-blue
+
+    environment:
+      - LANG=ko_KR.UTF-8
+      - UWSGI_PORT=8080
+
     ports:
       - "8089:8080"
-    container_name: spring-blue
-    volumes:
-      - /home/ubuntu/app/logs/blue:/logs
