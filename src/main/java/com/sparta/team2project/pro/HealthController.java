@@ -30,7 +30,7 @@ public class HealthController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "무중단 배포 !!";
+        return "무중단 그린 !!";
     }
 }
 
