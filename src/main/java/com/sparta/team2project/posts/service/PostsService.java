@@ -9,8 +9,10 @@ import com.sparta.team2project.commons.dto.MessageResponseDto;
 import com.sparta.team2project.commons.entity.UserRoleEnum;
 import com.sparta.team2project.commons.exceptionhandler.CustomException;
 import com.sparta.team2project.commons.exceptionhandler.ErrorCode;
+import com.sparta.team2project.notify.NotifyService;
 import com.sparta.team2project.posts.dto.PostsPicturesResponseDto;
 import com.sparta.team2project.posts.dto.PostsPicturesUploadResponseDto;
+import com.sparta.team2project.posts.entity.PostCategory;
 import com.sparta.team2project.posts.entity.PostsPictures;
 import com.sparta.team2project.posts.dto.*;
 import com.sparta.team2project.posts.entity.Posts;
@@ -37,6 +39,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,6 +66,7 @@ public class PostsService {
     private final UserRepository usersRepository;
     private final CommentsRepository commentsRepository;
     private final TagsRepository tagsRepository;
+    private final NotifyService notifyService;
 
     // 사진 저장을 위한 필드 선언
     private final AmazonS3ResourceStorage amazonS3ResourceStorage;
@@ -73,14 +77,17 @@ public class PostsService {
     private String bucket;
 
     // 게시글 생성
-    @CacheEvict(value = "posts",allEntries = true)
+   // @CacheEvict(value = "posts",allEntries = true)
     public PostMessageResponseDto createPost(TotalRequestDto totalRequestDto,Users users) {
 
         Users existUser = checkUser(users); // 사용자 조회
 
+        PostCategory postCategory = checkCategory(totalRequestDto.getPostCategory());
+
+
         Posts posts = new Posts(totalRequestDto.getContents(),
                 totalRequestDto.getTitle(),
-                totalRequestDto.getPostCategory(),
+                postCategory,
                 totalRequestDto.getSubTitle(),
                 existUser);
         postsRepository.save(posts);  //posts 저장
@@ -90,18 +97,21 @@ public class PostsService {
                 .map(tag -> new Tags(tag, posts))
                 .forEach(tagsRepository::save); // tags 저장
 
+
         List<Long> idList = new ArrayList<>();// tripDateID 담는 리스트
         List<TripDateOnlyRequestDto> tripDateRequestDtoList = totalRequestDto.getTripDateList();
-        for(TripDateOnlyRequestDto tripDateRequestDto : tripDateRequestDtoList){
+        if(totalRequestDto.getTripDateList() != null && !totalRequestDto.getTripDateList().isEmpty()){
+            for(TripDateOnlyRequestDto tripDateRequestDto : tripDateRequestDtoList){
             TripDate tripDate = new TripDate(tripDateRequestDto,posts);
             tripDateRepository.save(tripDate); // tripDate 저장
             idList.add(tripDate.getId());
         }
         return new PostMessageResponseDto("게시글이 등록 되었습니다.", HttpServletResponse.SC_OK,posts,idList);
+       } else {return  new PostMessageResponseDto("게시글이 등록 되었습니다.", HttpServletResponse.SC_OK,posts);}
     }
 
     // 단일 게시물 조회
-    @CacheEvict(value = "posts",allEntries = true)
+   // @CacheEvict(value = "posts",allEntries = true)
     public PostResponseDto getPost(Long postId) {
 
         Posts posts = checkPosts(postId); // 게시물 id 조회
@@ -182,8 +192,18 @@ public class PostsService {
     public List<PostResponseDto> getRankPosts() {
 
         // 상위 3개 게시물 가져오기 (좋아요 수 겹칠 시 createdAt 내림차순으로 정렬)
-        List<Posts> postsList = postsRepository.findTop10ByTitleIsNotNullAndContentsIsNotNullOrderByLikeNumDescCreatedAtDesc();
-        return getPostResponseDto(postsList);
+        List<RankRequestDto> postsList = postsRepository.findRank();
+        return getRankPostResponseDto(postsList);
+    }
+    @Scheduled(cron = "* 45 19 * * *") // 매일 19시 45분에 실행
+    public void resetWeekNum() {
+
+        List<Posts> posts = postsRepository.findAll();
+
+        // 각 레코드의 WeekNum을 0으로 초기화한다.
+        for (Posts post : posts) {
+            post.initialization();
+        }
     }
 
     // 사용자가 좋아요 누른 게시물 조회
@@ -218,7 +238,7 @@ public class PostsService {
     }
 
     // 게시글 좋아요 및 좋아요 취소
-    @CacheEvict(value = "posts",allEntries = true)
+   // @CacheEvict(value = "posts",allEntries = true)
     public LikeResponseDto like(Long id, Users users){
         Posts posts = checkPosts(id); // 게시글 조회
 
@@ -234,12 +254,13 @@ public class PostsService {
             PostsLike postsLike = new PostsLike(posts,existUser);
             postsLikeRepository.save(postsLike); // 좋아요 저장
             posts.like(); // 해당 게시물 좋아요수 증가시키는 메서드
+            notifyService.send(posts.getUsers(),"좋아요",existUser.getNickName()+"님이 게시글에 좋아요를 눌렀습니다.","api/posts/like/{postId}");
             return new LikeResponseDto("좋아요 확인",HttpServletResponse.SC_OK,true);
         }
     }
 
     // 게시글 수정
-    @CacheEvict(value = "posts",allEntries = true)
+   // @CacheEvict(value = "posts",allEntries = true)
     public MessageResponseDto updatePost(Long postId, UpdateRequestDto updateRequestDto,Users users) {
         Posts posts = checkPosts(postId); // 게시글 조회
         Users existUser = checkUser(users); // 사용자 조회
@@ -264,7 +285,7 @@ public class PostsService {
     }
 
     // 해당 게시물 삭제
-    @CacheEvict(allEntries = true)
+
     public MessageResponseDto deletePost(Long postId, Users users){
         Posts posts = checkPosts(postId); // 게시글 조회
         Users existUser = checkUser(users); // 사용자 조회
@@ -297,6 +318,16 @@ public class PostsService {
 
     }
 
+    private PostCategory checkCategory(PostCategory postCategory) {
+
+        if (postCategory == null) throw new CustomException(ErrorCode.CATEGORY_IS_BLANK);
+        else {
+            return postCategory;
+        }
+    }
+
+
+
     // ADMIN 권한 및 이메일 일치여부 메서드
     public void checkAuthority(Users existUser, Users users){
         if (!existUser.getUserRole().equals(UserRoleEnum.ADMIN)&&!existUser.getEmail().equals(users.getEmail())) {throw new CustomException(ErrorCode.NOT_ALLOWED);
@@ -308,16 +339,28 @@ public class PostsService {
         return postsRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_EXIST));
     }
 
-    // 상위 랭킹 및 검색 조회한 게시글 관련 반환 시 사용 메서드
+    // 상위 랭킹 게시글 관련 반환 시 사용 메서드
+    private List<PostResponseDto> getRankPostResponseDto(List<RankRequestDto> postsList) {
+
+        List<PostResponseDto> postResponseDtoList = new ArrayList<>();
+        for (RankRequestDto dto:postsList){
+            Posts posts = dto.getPosts();
+            List<String> tag = tagsRepository.findByPostsId(posts.getId());
+            postResponseDtoList.add(new PostResponseDto(dto.getCommentNum(),posts, tag, posts.getUsers()));
+        }
+        return postResponseDtoList;
+    }
+
+    // 검색 조회한 게시글 관련 반환 시 사용 메서드
     private List<PostResponseDto> getPostResponseDto(List<Posts> postsList) {
-        if (postsList.isEmpty()) {
+        if(postsList.isEmpty()){
             throw new CustomException(ErrorCode.POST_NOT_EXIST);
         }
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         for(Posts posts:postsList){
             int commentNum = commentsRepository.countByPosts(posts); // 댓글 세는 메서드
             List<Tags> tag = tagsRepository.findByPosts(posts);
-            postResponseDtoList.add(new PostResponseDto(posts, tag, posts.getUsers(), commentNum));
+            postResponseDtoList.add(new PostResponseDto(tag, posts, posts.getUsers(), commentNum));
         }
         return postResponseDtoList;
     }

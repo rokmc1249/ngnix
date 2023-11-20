@@ -35,10 +35,25 @@ public class PostResponseDto {
     private LocalDateTime modifiedAt;
     private List<Long> tripDateIdList;
     private String subTitle;
+    private int weekNum;
     private List<String> chosenDateList;
     private List<PostsPicturesResponseDto> postsPicturesList;
 
      // 랭킹 게시물 조회 및 검색 조회로 게시글 반환시
+    public PostResponseDto(int commentNum,Posts posts, List<String> tagsList,Users users){
+        this.postId = posts.getId();
+        this.title = posts.getTitle();
+        this.tagsList = tagsList.stream().toList();
+        this.contents = posts.getContents();
+        this.nickName = users.getNickName();
+        this.likeNum = posts.getLikeNum();
+        this.viewNum =  posts.getViewNum();
+        this.commentNum = commentNum;
+        this.postCategory = posts.getPostCategory();
+        this.createdAt = posts.getCreatedAt();
+        this.postsPicturesList = postsPicturesToDto(posts.getPostsPicturesList());
+    }
+
     public PostResponseDto(Posts posts, List<Tags> tagsList,Users users,int commentNum){
         this.postId = posts.getId();
         this.title = posts.getTitle();
@@ -52,6 +67,22 @@ public class PostResponseDto {
         this.createdAt = posts.getCreatedAt();
         this.postsPicturesList = postsPicturesToDto(posts.getPostsPicturesList());
     }
+
+    public PostResponseDto(List<Tags> tagsList,Posts posts,Users users,int commentNum){
+        this.postId = posts.getId();
+        this.title = posts.getTitle();
+        this.tagsList = tagsList.stream().map(Tags::getPurpose).toList();
+        this.contents = posts.getContents();
+        this.nickName = users.getNickName();
+        this.likeNum = posts.getLikeNum();
+        this.weekNum = posts.getWeekNum();
+        this.viewNum =  posts.getViewNum();
+        this.commentNum = commentNum;
+        this.postCategory = posts.getPostCategory();
+        this.createdAt = posts.getCreatedAt();
+        this.postsPicturesList = postsPicturesToDto(posts.getPostsPicturesList());
+    }
+
     // 전체 게시글 관련 반환시
     public PostResponseDto(Posts posts, Users users,List<Tags> tagsList,int commentNum){
         this.postId = posts.getId();
@@ -81,6 +112,7 @@ public class PostResponseDto {
         this.postCategory = posts.getPostCategory();
         this.createdAt = posts.getCreatedAt();
         this.modifiedAt = modifiedAt;
+        this.weekNum = posts.getWeekNum();
         this.postsPicturesList = postsPicturesToDto(posts.getPostsPicturesList());
     }
 

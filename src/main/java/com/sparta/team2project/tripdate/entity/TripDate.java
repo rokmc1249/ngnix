@@ -6,6 +6,8 @@ import com.sparta.team2project.schedules.entity.Schedules;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,10 +28,8 @@ public class TripDate {
     private LocalDate chosenDate;
 
 
-//    @Column(nullable = false)
-//    private String subTitle;
-
     @ManyToOne(fetch = FetchType.LAZY)
+//    @OnDelete(action= OnDeleteAction.CASCADE)
     @JoinColumn(name = "posts_id",nullable = false)
     private Posts posts;
 

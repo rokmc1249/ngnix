@@ -25,6 +25,9 @@ public class Posts extends TimeStamped {
     private int likeNum;
 
     @Column(nullable = false)
+    private int weekNum;
+
+    @Column(nullable = false)
     private int viewNum;
 
 
@@ -34,7 +37,7 @@ public class Posts extends TimeStamped {
     @Column(nullable = true,length = 500)
     private String contents;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String subTitle;
 
     @Column(nullable = false)
@@ -62,10 +65,16 @@ public class Posts extends TimeStamped {
 
     public void unlike() {
         this.likeNum-=1;
+        this.weekNum-=1;
     }
 
     public void like() {
         this.likeNum+=1;
+        this.weekNum+=1;
+    }
+
+    public void initialization(){ // 초기화
+        this.weekNum=0;
     }
 
     public void viewCount(){this.viewNum+=1;}

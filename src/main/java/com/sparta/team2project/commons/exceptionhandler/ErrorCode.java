@@ -40,7 +40,11 @@ public enum ErrorCode {
     INVALID_NICKNAME(HttpStatus.BAD_REQUEST,"닉네임은 2글자 이상, 10글자 이하의 영문자, 숫자, 또는 한글로만 구성되어야 합니다."),
     CURRENT_PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "현재 비밀번호가 일치하지 않습니다."),
     SAME_PASSWORD(HttpStatus.BAD_REQUEST, "현재 비밀번호와 동일한 비밀번호 입니다."),
-    RANDOM_NICKNAME_FAIL(HttpStatus.BAD_REQUEST, "닉네임 생성에 실패하였습니다.");
+    RANDOM_NICKNAME_FAIL(HttpStatus.BAD_REQUEST, "닉네임 생성에 실패하였습니다."),
+    // 추가
+    SUBTITLE_IS_BLANK(HttpStatus.BAD_REQUEST, "서브타이틀이 비어있습니다."),
+    NOTIFY_NOT_EXIST(HttpStatus.BAD_REQUEST, "알림이 존재하지 않습니다."),
+    CATEGORY_IS_BLANK(HttpStatus.BAD_REQUEST, "카테고리가 비어있습니다.");
 
 
 

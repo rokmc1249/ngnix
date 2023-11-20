@@ -6,6 +6,7 @@ import com.sparta.team2project.commons.dto.MessageResponseDto;
 import com.sparta.team2project.commons.entity.UserRoleEnum;
 import com.sparta.team2project.commons.exceptionhandler.CustomException;
 import com.sparta.team2project.commons.exceptionhandler.ErrorCode;
+import com.sparta.team2project.notify.NotifyService;
 import com.sparta.team2project.posts.dto.*;
 import com.sparta.team2project.posts.entity.PostCategory;
 import com.sparta.team2project.posts.entity.Posts;
@@ -56,6 +57,9 @@ public class PostsServiceTest {
     private CommentsRepository commentsRepository;
 
     @Mock
+    private NotifyService notifyService;
+
+    @Mock
     private TagsRepository tagsRepository;
 
     @Mock
@@ -74,7 +78,7 @@ public class PostsServiceTest {
     @BeforeEach
     public void setup() {
 
-        postsService = new PostsService(postsRepository,tripDateRepository,postsLikeRepository,userRepository,commentsRepository,tagsRepository,amazonS3ResourceStorage,amazonS3Client,postsPicturesRepository);
+        postsService = new PostsService(postsRepository,tripDateRepository,postsLikeRepository,userRepository,commentsRepository,tagsRepository,notifyService,amazonS3ResourceStorage,amazonS3Client,postsPicturesRepository);
     }
 
 
@@ -346,11 +350,11 @@ public class PostsServiceTest {
         mockPostsList.add(post1);
         mockPostsList.add(post2);
         mockPostsList.add(post3);
-        mockPostsList.sort(Comparator.comparing(Posts::getLikeNum).reversed()
+        mockPostsList.sort(Comparator.comparing(Posts::getWeekNum).reversed()
                 .thenComparing(Posts::getCreatedAt, Comparator.reverseOrder()));
 
         // PostsRepository의 동작 설정
-        when(postsRepository.findTop10ByTitleIsNotNullAndContentsIsNotNullOrderByLikeNumDescCreatedAtDesc())
+        when(postsRepository.findTop3ByTitleIsNotNullAndContentsIsNotNullOrderByWeekNumDescCreatedAtDesc())
                 .thenReturn(mockPostsList);
 
         // 테스트 메서드 호출
